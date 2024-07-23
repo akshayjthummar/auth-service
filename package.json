@@ -4,7 +4,7 @@
     "description": "a user management service",
     "main": "server.ts",
     "scripts": {
-        "dev": "node src/server.js",
+        "dev": "node src/server.ts",
         "format:check": "prettier . --check",
         "format:fix": "prettier . --write",
         "lint": "eslint .",
@@ -28,5 +28,8 @@
             "npm run lint:fix",
             "npm run format:fix"
         ]
+    },
+    "dependencies": {
+        "dotenv": "^16.4.5"
     }
 }
