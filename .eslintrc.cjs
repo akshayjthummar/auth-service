@@ -13,14 +13,5 @@ module.exports = {
     root: true,
     rules: {
         'no-console': 'error',
-        'dot-notation': 'error',
     },
-    overrides: [
-        {
-            files: ['.eslintrc.cjs'],
-            parserOptions: {
-                project: null,
-            },
-        },
-    ],
 };
