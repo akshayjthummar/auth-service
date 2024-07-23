@@ -1,0 +1,11 @@
+{
+  "name": "auth-service",
+  "version": "1.0.0",
+  "description": "a user management service",
+  "main": "server.ts",
+  "scripts": {
+    "dev": "node src/server.js"
+  },
+  "author": "akshay thummar <akshaythummar34@gmail.com>",
+  "license": "ISC"
+}
