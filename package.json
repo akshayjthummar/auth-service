@@ -1,14 +1,17 @@
 {
-  "name": "auth-service",
-  "version": "1.0.0",
-  "description": "a user management service",
-  "main": "server.ts",
-  "scripts": {
-    "dev": "node src/server.js"
-  },
-  "author": "akshay thummar <akshaythummar34@gmail.com>",
-  "license": "ISC",
-  "devDependencies": {
-    "@types/node": "^20.14.12"
-  }
+    "name": "auth-service",
+    "version": "1.0.0",
+    "description": "a user management service",
+    "main": "server.ts",
+    "scripts": {
+        "dev": "node src/server.js",
+        "format:check": "prettier . --check",
+        "format:fix": "prettier . --write"
+    },
+    "author": "akshay thummar <akshaythummar34@gmail.com>",
+    "license": "ISC",
+    "devDependencies": {
+        "@types/node": "^20.14.12",
+        "prettier": "3.3.3"
+    }
 }
