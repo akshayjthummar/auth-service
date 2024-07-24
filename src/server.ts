@@ -1,5 +1,16 @@
-function login(username: string): string {
-    return username;
-}
+/* eslint-disable no-console */
+import app from './app';
+import { Config } from './config';
 
-login('akshay');
+const startServer = () => {
+    try {
+        app.listen(Config.PORT, () =>
+            console.log(`Listening on port ${Config.PORT}`),
+        );
+    } catch (error) {
+        console.error(error);
+        process.exit(1);
+    }
+};
+
+startServer();
