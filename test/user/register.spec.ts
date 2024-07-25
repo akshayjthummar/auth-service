@@ -61,5 +61,6 @@ describe('POST /auth/register', () => {
             expect(user[0].email).toBe(userdata.email);
         });
     });
+
     describe('missing fileds', () => {});
 });
