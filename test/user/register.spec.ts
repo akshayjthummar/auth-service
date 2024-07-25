@@ -109,5 +109,25 @@ describe('POST /auth/register', () => {
         });
     });
 
-    describe('missing fileds', () => {});
+    describe('missing fileds', () => {
+        it('should retuern 400 status code if email  does not exist', async () => {
+            // Arrange
+            const userdata = {
+                firstName: 'akshay',
+                lastName: 'thummar',
+                email: '',
+                password: 'secret',
+            };
+
+            // Act
+            const response = await request(app)
+                .post('/auth/register')
+                .send(userdata);
+            const useRepository = connection.getRepository(User);
+            const user = await useRepository.find();
+            //   Assert
+            expect(response.statusCode).toBe(400);
+            expect(user).toHaveLength(0);
+        });
+    });
 });
