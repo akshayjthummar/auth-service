@@ -61,7 +61,6 @@ describe('POST /auth/register', () => {
             expect(user[0].lastName).toBe(userdata.lastName);
             expect(user[0].email).toBe(userdata.email);
         });
-
         it('should assign a customer role', async () => {
             const userdata = {
                 firstName: 'akshay',
@@ -74,6 +73,39 @@ describe('POST /auth/register', () => {
             const users = await useRepository.find();
             expect(users[0]).toHaveProperty('role');
             expect(users[0].role).toBe(Roles.CUSTOMER);
+        });
+        it('should store the hashed password in the database', async () => {
+            const userdata = {
+                firstName: 'akshay',
+                lastName: 'thummar',
+                email: 'akshaythummar34@gmail.com',
+                password: 'secret',
+            };
+            await request(app).post('/auth/register').send(userdata);
+            const useRepository = connection.getRepository(User);
+            const users = await useRepository.find();
+            expect(users[0].password).not.toBe(userdata.password);
+            expect(users[0].password).toHaveLength(60);
+            expect(users[0].password).toMatch(/^\$2b\$\d+\$/);
+        });
+        it('this shoud return 400 status code if email is already exists', async () => {
+            // Arrange
+            const userdata = {
+                firstName: 'akshay',
+                lastName: 'thummar',
+                email: 'akshaythummar34@gmail.com',
+                password: 'secret',
+            };
+            const useRepository = connection.getRepository(User);
+            await useRepository.save({ ...userdata, role: Roles.CUSTOMER });
+            // Act
+            const response = await request(app)
+                .post('/auth/register')
+                .send(userdata);
+            const user = await useRepository.find();
+            // Assert
+            expect(response.statusCode).toBe(400);
+            expect(user).toHaveLength(1);
         });
     });
 
