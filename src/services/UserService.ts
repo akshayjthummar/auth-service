@@ -19,13 +19,14 @@ export class UserService {
         const saltRounds = 10;
         const hashedPassword = await bcrypt.hash(password, saltRounds);
         try {
-            await this.userRepository.save({
+            const user = await this.userRepository.save({
                 firstName,
                 lastName,
                 email,
                 password: hashedPassword,
                 role: Roles.CUSTOMER,
             });
+            return user;
         } catch (err) {
             const error = createHttpError(
                 500,
