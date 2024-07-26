@@ -3,8 +3,12 @@ import fs from 'fs';
 import path from 'path';
 import createHttpError from 'http-errors';
 import { Config } from '../config';
+import { RefreshToken } from '../entity/RefreshToken';
+import { User } from '../entity/User';
+import { Repository } from 'typeorm';
 
 export class TokenService {
+    constructor(private refreshTokenRepository: Repository<RefreshToken>) {}
     ganerateAccessToken(payload: JwtPayload) {
         let privateKey: Buffer;
         try {
@@ -31,5 +35,15 @@ export class TokenService {
             jwtid: String(payload.id),
         });
         return refreshToken;
+    }
+
+    async persistRefreshToken(user: User) {
+        const MS_IN_YEAR = 1000 * 60 * 60 * 24 * 365; //1 year
+
+        const newRefreshToken = await this.refreshTokenRepository.save({
+            user: user,
+            expiresAt: new Date(Date.now() + MS_IN_YEAR),
+        });
+        return newRefreshToken;
     }
 }
