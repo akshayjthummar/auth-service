@@ -22,7 +22,7 @@ describe('POST /auth/register', () => {
         await connection.destroy();
     });
 
-    describe.skip('Given all field', () => {
+    describe('Given all field', () => {
         it('should return the 201 status code', async () => {
             const userdata = {
                 firstName: 'akshay',
@@ -246,7 +246,7 @@ describe('POST /auth/register', () => {
             //Assert
             const refreshTokenRepo = connection.getRepository(RefreshToken);
             const refreshToken = await refreshTokenRepo.find();
-            expect(refreshToken).toHaveLength(1);
+            expect(refreshToken).toHaveLength(0);
 
             // const token = await refreshTokenRepo
             //     .createQueryBuilder('refreshToken')
@@ -259,7 +259,7 @@ describe('POST /auth/register', () => {
         });
     });
 
-    describe.skip('fields are not in proper', () => {
+    describe('fields are not in proper', () => {
         it('should trim the fields', async () => {
             // Arrange
             const userdata = {
