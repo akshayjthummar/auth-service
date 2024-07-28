@@ -65,5 +65,53 @@ describe("GET /auth/self", () => {
             // Check if user id match with register user
             expect((response.body as Record<string, string>).id).toBe(data.id);
         });
+        it("should not return the password field", async () => {
+            const userData = {
+                firstName: "akshay",
+                lastName: "thummar",
+                email: "akshay@gmail.com",
+                password: "akshay12321",
+            };
+            // Register user
+            const userRepository = connection.getRepository(User);
+            const data = await userRepository.save({
+                ...userData,
+                role: Roles.CUSTOMER,
+            });
+
+            // Ganerate Token
+            const accessToken = jwks.token({
+                sub: String(data.id),
+                role: data.role,
+            });
+            // Add token to key
+
+            const response = await request(app)
+                .get("/auth/self")
+                .set("Cookie", [`accessToken=${accessToken};`]);
+
+            // Assert
+            // Check if user id match with register user
+            expect(response.body as Record<string, string>).not.toHaveProperty(
+                "password",
+            );
+        });
+
+        it("should return 401 status code token does not exists", async () => {
+            const userData = {
+                firstName: "Rakesh",
+                lastName: "K",
+                email: "rakesh@mern.space",
+                password: "password",
+            };
+            const userRepository = connection.getRepository(User);
+            await userRepository.save({
+                ...userData,
+                role: Roles.CUSTOMER,
+            });
+            const response = await request(app).get("/auth/self");
+
+            expect(response.statusCode).toBe(401);
+        });
     });
 });

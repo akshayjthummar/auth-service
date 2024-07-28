@@ -86,7 +86,7 @@ describe("POST /auth/register", () => {
             };
             await request(app).post("/auth/register").send(userdata);
             const useRepository = connection.getRepository(User);
-            const users = await useRepository.find();
+            const users = await useRepository.find({ select: ["password"] });
             expect(users[0].password).not.toBe(userdata.password);
             expect(users[0].password).toHaveLength(60);
             expect(users[0].password).toMatch(/^\$2b\$\d+\$/);

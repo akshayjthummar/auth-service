@@ -85,6 +85,7 @@ export class AuthControllers {
             email,
             password: "******",
         });
+
         // Check if username(email) is exist in db
         // Compare Password
         // Ganarate Token
@@ -105,6 +106,7 @@ export class AuthControllers {
                 password,
                 user.password,
             );
+
             if (!passwordMatch) {
                 const err = createHttpError(
                     400,
@@ -143,6 +145,7 @@ export class AuthControllers {
                 httpOnly: true,
             });
             this.logger.info("user has been logged in", { id: user.id });
+
             res.status(200).json({ id: user.id });
         } catch (error) {
             next(error);
@@ -152,6 +155,6 @@ export class AuthControllers {
 
     async self(req: AuthRequest, res: Response) {
         const user = await this.userService.findById(Number(req.auth.sub));
-        res.json(user);
+        res.json({ ...user, password: undefined });
     }
 }

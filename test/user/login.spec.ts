@@ -22,13 +22,14 @@ describe("POST /auth/login", () => {
 
     describe("Given all field", () => {
         it("should return access token and refresh token inside cookie", async () => {
-            // Arrenge
+            // Arrange
             const userData = {
-                firstName: "akshay",
-                lastName: "thummar",
-                email: "akshay@gmail.com",
-                password: "akshay123216",
+                firstName: "Rakesh",
+                lastName: "K",
+                email: "rakesh@mern.space",
+                password: "password",
             };
+
             const hashedPassword = await bcrypt.hash(userData.password, 10);
 
             const userRepository = connection.getRepository(User);
@@ -37,6 +38,7 @@ describe("POST /auth/login", () => {
                 password: hashedPassword,
                 role: Roles.CUSTOMER,
             });
+
             // Act
             const response = await request(app)
                 .post("/auth/login")
@@ -53,6 +55,7 @@ describe("POST /auth/login", () => {
                 if (cookie.startsWith("accessToken=")) {
                     accessToken = cookie.split(";")[0].split("=")[1];
                 }
+
                 if (cookie.startsWith("refreshToken=")) {
                     refreshToken = cookie.split(";")[0].split("=")[1];
                 }

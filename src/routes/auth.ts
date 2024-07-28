@@ -29,14 +29,14 @@ const authControllers = new AuthControllers(
 router.post(
     "/register",
     registerValidator,
-    async (req: Request, res: Response, next: NextFunction) =>
+    (req: Request, res: Response, next: NextFunction) =>
         authControllers.register(req, res, next),
 );
 
 router.post(
     "/login",
     loginValidator,
-    async (req: Request, res: Response, next: NextFunction) =>
+    (req: Request, res: Response, next: NextFunction) =>
         authControllers.login(req, res, next),
 );
 
