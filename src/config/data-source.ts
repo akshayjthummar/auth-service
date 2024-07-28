@@ -1,11 +1,11 @@
-import 'reflect-metadata';
-import { DataSource } from 'typeorm';
-import { User } from '../entity/User';
-import { RefreshToken } from '../entity/RefreshToken';
-import { Config } from '.';
+import "reflect-metadata";
+import { DataSource } from "typeorm";
+import { User } from "../entity/User";
+import { RefreshToken } from "../entity/RefreshToken";
+import { Config } from ".";
 
 export const AppDataSource = new DataSource({
-    type: 'postgres',
+    type: "postgres",
     host: Config.DB_HOST,
     port: Number(Config.DB_PORT),
     username: Config.DB_USERNAME,
