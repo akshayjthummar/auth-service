@@ -1,12 +1,12 @@
-import { NextFunction, Response } from 'express';
-import { RegisterUserRequest } from '../types';
-import { UserService } from '../services/UserService';
-import { Logger } from 'winston';
-import { validationResult } from 'express-validator';
-import { JwtPayload } from 'jsonwebtoken';
-import { TokenService } from '../services/TokenService';
-import createHttpError from 'http-errors';
-import { CredentialService } from '../services/CredentialService';
+import { NextFunction, Response } from "express";
+import { AuthRequest, RegisterUserRequest } from "../types";
+import { UserService } from "../services/UserService";
+import { Logger } from "winston";
+import { validationResult } from "express-validator";
+import { JwtPayload } from "jsonwebtoken";
+import { TokenService } from "../services/TokenService";
+import createHttpError from "http-errors";
+import { CredentialService } from "../services/CredentialService";
 
 export class AuthControllers {
     constructor(
@@ -25,11 +25,11 @@ export class AuthControllers {
         if (!result.isEmpty()) {
             return res.status(400).json({ errors: result.array() });
         }
-        this.logger.debug('New Request to register a user', {
+        this.logger.debug("New Request to register a user", {
             firstName,
             lastName,
             email,
-            password: '******',
+            password: "******",
         });
         try {
             const user = await this.userService.create({
@@ -54,20 +54,20 @@ export class AuthControllers {
                 id: String(newRefreshToken.id),
             });
 
-            res.cookie('accessToken', accessToken, {
-                domain: 'localhost',
-                sameSite: 'strict',
+            res.cookie("accessToken", accessToken, {
+                domain: "localhost",
+                sameSite: "strict",
                 maxAge: 1000 * 60 * 60, //1h,
                 httpOnly: true,
             });
 
-            res.cookie('refreshToken', refreshToken, {
-                domain: 'localhost',
-                sameSite: 'strict',
+            res.cookie("refreshToken", refreshToken, {
+                domain: "localhost",
+                sameSite: "strict",
                 maxAge: 1000 * 60 * 60 * 24 * 365, //365day,
                 httpOnly: true,
             });
-            this.logger.info('User has been registerd', { id: user.id });
+            this.logger.info("User has been registerd", { id: user.id });
             res.status(201).json({ id: user.id });
         } catch (error) {
             next(error);
@@ -81,9 +81,9 @@ export class AuthControllers {
             return res.status(400).json({ errors: result.array() });
         }
         const { email, password } = req.body;
-        this.logger.debug('New Request to login a user', {
+        this.logger.debug("New Request to login a user", {
             email,
-            password: '******',
+            password: "******",
         });
         // Check if username(email) is exist in db
         // Compare Password
@@ -95,7 +95,7 @@ export class AuthControllers {
             if (!user) {
                 const err = createHttpError(
                     400,
-                    'Email or password does not match',
+                    "Email or password does not match",
                 );
                 next(err);
                 return;
@@ -108,7 +108,7 @@ export class AuthControllers {
             if (!passwordMatch) {
                 const err = createHttpError(
                     400,
-                    'Email or password does not match',
+                    "Email or password does not match",
                 );
                 next(err);
                 return;
@@ -129,24 +129,29 @@ export class AuthControllers {
                 id: String(newRefreshToken.id),
             });
 
-            res.cookie('accessToken', accessToken, {
-                domain: 'localhost',
-                sameSite: 'strict',
+            res.cookie("accessToken", accessToken, {
+                domain: "localhost",
+                sameSite: "strict",
                 maxAge: 1000 * 60 * 60, //1h,
                 httpOnly: true,
             });
 
-            res.cookie('refreshToken', refreshToken, {
-                domain: 'localhost',
-                sameSite: 'strict',
+            res.cookie("refreshToken", refreshToken, {
+                domain: "localhost",
+                sameSite: "strict",
                 maxAge: 1000 * 60 * 60 * 24 * 365, //365day,
                 httpOnly: true,
             });
-            this.logger.info('user has been logged in', { id: user.id });
+            this.logger.info("user has been logged in", { id: user.id });
             res.status(200).json({ id: user.id });
         } catch (error) {
             next(error);
             return;
         }
+    }
+
+    async self(req: AuthRequest, res: Response) {
+        const user = await this.userService.findById(Number(req.auth.sub));
+        res.json(user);
     }
 }

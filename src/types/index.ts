@@ -1,4 +1,4 @@
-import { Request } from 'express';
+import { Request } from "express";
 
 export interface UserData {
     firstName: string;
@@ -8,4 +8,15 @@ export interface UserData {
 }
 export interface RegisterUserRequest extends Request {
     body: UserData;
+}
+
+export type AuthCookie = {
+    accessToken: string;
+};
+
+export interface AuthRequest extends Request {
+    auth: {
+        sub: string;
+        role: number;
+    };
 }
