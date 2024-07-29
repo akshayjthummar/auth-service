@@ -38,7 +38,6 @@ router.post(
 router.post(
     "/login",
     loginValidator,
-    validateRefreshToken,
     (req: Request, res: Response, next: NextFunction) =>
         authControllers.login(req as AuthRequest, res, next),
 );
