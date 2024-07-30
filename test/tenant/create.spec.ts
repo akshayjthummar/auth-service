@@ -102,5 +102,21 @@ describe("POST /tenants", () => {
             const tenants = await tenantRepository.find();
             expect(tenants).toHaveLength(0);
         });
+        it("should missing tenant field return status code 400", async () => {
+            const tenantData = {
+                name: "Tenant name",
+            };
+
+            const response = await request(app)
+                .post("/tenants")
+                .set("Cookie", [`accessToken=${adminToken}`])
+                .send(tenantData);
+
+            const tenantRepository = connection.getRepository(Tenant);
+            const tenants = await tenantRepository.find();
+
+            expect(response.statusCode).toBe(400);
+            expect(tenants).toHaveLength(0);
+        });
     });
 });
