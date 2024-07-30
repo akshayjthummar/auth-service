@@ -24,10 +24,10 @@ describe("POST /auth/login", () => {
         it("should return access token and refresh token inside cookie", async () => {
             // Arrange
             const userData = {
-                firstName: "Rakesh",
-                lastName: "K",
-                email: "rakesh@mern.space",
-                password: "password",
+                firstName: "akshay",
+                lastName: "thummar",
+                email: "akshay@gmail.com",
+                password: "akshay12321",
             };
 
             const hashedPassword = await bcrypt.hash(userData.password, 10);

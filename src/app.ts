@@ -5,6 +5,7 @@ import { HttpError } from "http-errors";
 import cookieParser from "cookie-parser";
 import authRouter from "./routes/auth";
 import tenantRouter from "./routes/tenant";
+import usersRouter from "./routes/user";
 
 const app = express();
 app.use(express.json());
@@ -17,6 +18,7 @@ app.get("/", (req: Request, res: Response) => {
 
 app.use("/auth", authRouter);
 app.use("/tenants", tenantRouter);
+app.use("/users", usersRouter);
 
 app.use((err: HttpError, req: Request, res: Response, next: NextFunction) => {
     logger.error(err.message);

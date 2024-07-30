@@ -7,6 +7,7 @@ import { JwtPayload } from "jsonwebtoken";
 import { TokenService } from "../services/TokenService";
 import createHttpError from "http-errors";
 import { CredentialService } from "../services/CredentialService";
+import { Roles } from "../constants";
 
 export class AuthControllers {
     constructor(
@@ -37,6 +38,7 @@ export class AuthControllers {
                 lastName,
                 email,
                 password,
+                role: Roles.CUSTOMER,
             });
 
             const payload: JwtPayload = {
