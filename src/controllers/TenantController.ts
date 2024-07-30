@@ -1,13 +1,14 @@
-import { NextFunction, Response } from "express";
+import { Logger } from "winston";
 import { TenantService } from "../services/TenantService";
 import { CreateTenantRequest } from "../types";
-import { Logger } from "winston";
+import { NextFunction, Response } from "express";
 
 export class TenantController {
     constructor(
         private tenantService: TenantService,
         private logger: Logger,
     ) {}
+
     async create(req: CreateTenantRequest, res: Response, next: NextFunction) {
         const { name, address } = req.body;
         this.logger.debug("Request for creating tenant", { name, address });
@@ -17,8 +18,6 @@ export class TenantController {
             res.status(201).json({ id: tenant.id });
         } catch (error) {
             next(error);
-            return;
         }
-        res.status(201).json({});
     }
 }
