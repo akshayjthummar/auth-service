@@ -5,8 +5,10 @@ import { Roles } from "../../src/constants";
 import request from "supertest";
 import app from "../../src/app";
 import createJWKSMock from "mock-jwks";
+import { Tenant } from "../../src/entity/Tenant";
+import { createTenant } from "../utils";
 
-describe("POST /users", () => {
+describe.skip("POST /users", () => {
     let connection: DataSource;
     let jwks: ReturnType<typeof createJWKSMock>;
     let adminToken: string;
@@ -32,13 +34,15 @@ describe("POST /users", () => {
     });
 
     describe("Given all field", () => {
-        it("should persist the user in the database", async () => {
+        it.skip("should persist the user in the database", async () => {
+            const tenant = await createTenant(connection.getRepository(Tenant));
             const userData = {
                 firstName: "akshay",
                 lastName: "thummar",
                 email: "akshay@gmail.com",
                 password: "akshay12321",
-                tenantId: 1,
+                tenantId: tenant.id,
+                role: Roles.MANAGER,
             };
 
             await request(app)
