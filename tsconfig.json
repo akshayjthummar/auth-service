@@ -2,7 +2,7 @@
     "compilerOptions": {
         "target": "es2016",
         "module": "commonjs",
-        "rootDir": "./src",
+        "rootDir": "./",
         "outDir": "./dist",
         "esModuleInterop": true,
         "forceConsistentCasingInFileNames": true,
@@ -12,5 +12,6 @@
         "emitDecoratorMetadata": true,
         "experimentalDecorators": true,
         "lib": ["ES6"]
-    }
+    },
+    "exclude": ["**/*.spet.ts","test"]
 }
