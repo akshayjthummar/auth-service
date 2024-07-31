@@ -55,7 +55,7 @@ export class TenantController {
         }
     }
 
-    async update(req: Request, res: Response, next: NextFunction) {
+    async update(req: CreateTenantRequest, res: Response, next: NextFunction) {
         // Validation
         const result = validationResult(req);
         if (!result.isEmpty()) {
