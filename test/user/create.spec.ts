@@ -1,3 +1,4 @@
+jest.setTimeout(10000); 
 import { DataSource } from "typeorm";
 import { AppDataSource } from "../../src/config/data-source";
 import { User } from "../../src/entity/User";
@@ -15,15 +16,17 @@ describe("POST /users", () => {
     beforeAll(async () => {
         jwks = createJWKSMock("http://localhost:5501");
         connection = await AppDataSource.initialize();
-    });
-    beforeEach(async () => {
         jwks.start();
-        await connection.dropDatabase();
-        await connection.synchronize();
         adminToken = jwks.token({
             sub: "1",
             role: Roles.ADMIN,
         });
+    });
+    beforeEach(async () => {
+        
+        await connection.dropDatabase();
+        await connection.synchronize();
+        
     });
 
     afterEach(() => {

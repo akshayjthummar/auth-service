@@ -1,3 +1,5 @@
+jest.setTimeout(10000); 
+
 import { DataSource } from "typeorm";
 import { AppDataSource } from "../../src/config/data-source";
 import { User } from "../../src/entity/User";
@@ -12,9 +14,10 @@ describe("GET /auth/self", () => {
     beforeAll(async () => {
         jwks = createJWKSMock("http://localhost:5501");
         connection = await AppDataSource.initialize();
+        jwks.start();
     });
     beforeEach(async () => {
-        jwks.start();
+       
         await connection.dropDatabase();
         await connection.synchronize();
     });

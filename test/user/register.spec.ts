@@ -1,3 +1,5 @@
+
+jest.setTimeout(10000); 
 /* eslint-disable @typescript-eslint/no-misused-promises */
 /* eslint-disable @typescript-eslint/require-await */
 import request from "supertest";

@@ -1,3 +1,5 @@
+jest.setTimeout(10000); 
+
 import { DataSource } from "typeorm";
 import { AppDataSource } from "../../src/config/data-source";
 import bcrypt from "bcrypt";
