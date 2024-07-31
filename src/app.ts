@@ -6,8 +6,12 @@ import cookieParser from "cookie-parser";
 import authRouter from "./routes/auth";
 import tenantRouter from "./routes/tenant";
 import usersRouter from "./routes/user";
+import cors from "cors";
+import { Config } from "./config";
 
 const app = express();
+const ALLOWED_DOMAINS = [Config.ADMIN_UI_DOMAIN, Config.CLIENT_UI_DOMAIN];
+app.use(cors({ origin: ALLOWED_DOMAINS as string[], credentials: true }));
 app.use(express.json());
 app.use(express.static("public"));
 app.use(cookieParser());
