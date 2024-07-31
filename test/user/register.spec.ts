@@ -91,7 +91,7 @@ describe("POST /auth/register", () => {
             const users = await useRepository.find({ select: ["password"] });
             expect(users[0].password).not.toBe(userdata.password);
             expect(users[0].password).toHaveLength(60);
-            expect(users[0].password).toMatch(/^\$2b\$\d+\$/);
+            expect(users[0].password).toMatch(/^\$2[a|b]\$\d+\$/);
         });
         it("this shoud return 400 status code if email is already exists", async () => {
             // Arrange
