@@ -16,6 +16,7 @@ import createUserValidator from "../validators/createUser.validator";
 import updateUserValidator from "../validators/updateUser.validator";
 import { UpdateUserRequest } from "../types";
 import logger from "../config/logger";
+import listUserValidator from "../validators/listUser.validator";
 
 const router = Router();
 
@@ -36,7 +37,8 @@ router.get(
     "/",
     authenticate as RequestHandler,
     canAccess([Roles.ADMIN]),
-    (req, res, next) =>
+    listUserValidator,
+    (req: Request, res: Response, next: NextFunction) =>
         userController.getAll(req, res, next) as unknown as RequestHandler,
 );
 

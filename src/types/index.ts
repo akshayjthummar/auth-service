@@ -51,3 +51,7 @@ export interface UpdateUserData {
 export interface UpdateUserRequest extends Request {
     body: UpdateUserData;
 }
+export interface UserQueryParams {
+    currentPage: number;
+    perPage: number;
+}

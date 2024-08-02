@@ -19,7 +19,7 @@ const tenantController = new TenantController(tenantService, logger);
 router.post(
     "/",
     authenticate as RequestHandler,
-    canAccess([Roles.ADMIN]),
+    canAccess([Roles.MANAGER]),
     tenantValidator,
     (req: CreateTenantRequest, res: Response, next: NextFunction) =>
         tenantController.create(req, res, next) as unknown as RequestHandler,
