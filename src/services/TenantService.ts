@@ -18,6 +18,7 @@ export class TenantService {
         const result = queryBuilder
             .skip((queryParams.currentPage - 1) * queryParams.perPage)
             .take(queryParams.perPage)
+            .orderBy("id", "DESC")
             .getManyAndCount();
         return result;
     }
