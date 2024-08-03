@@ -18,7 +18,17 @@ export default checkSchema({
     },
     tenantId: {
         errorMessage: "TenantId is required!",
-        notEmpty: true,
         trim: true,
+        custom: {
+            options: (value: string, { req }) => {
+                // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
+                const role = req.body.role;
+                if (role === "admin") {
+                    return true;
+                } else {
+                    return !!value;
+                }
+            },
+        },
     },
 });

@@ -107,7 +107,7 @@ export class UserService {
                 firstName,
                 lastName,
                 role,
-                tenant: tenantId ? { id: tenantId } : undefined,
+                tenant: tenantId ? { id: tenantId } : null,
             });
             return user;
         } catch (err) {
