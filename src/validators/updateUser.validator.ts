@@ -1,4 +1,5 @@
 import { checkSchema } from "express-validator";
+import { UpdateUserRequest } from "../types";
 
 export default checkSchema({
     firstName: {
@@ -21,8 +22,7 @@ export default checkSchema({
         trim: true,
         custom: {
             options: (value: string, { req }) => {
-                // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
-                const role = req.body.role;
+                const role = (req as UpdateUserRequest).body.role;
                 if (role === "admin") {
                     return true;
                 } else {
