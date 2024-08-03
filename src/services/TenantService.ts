@@ -1,5 +1,5 @@
 import { Repository } from "typeorm";
-import { ITenant } from "../types";
+import { ITenant, TenantQueryParams } from "../types";
 import { Tenant } from "../entity/Tenant";
 
 export class TenantService {
@@ -7,8 +7,19 @@ export class TenantService {
     async create(tenantData: ITenant) {
         return await this.tenantRepository.save(tenantData);
     }
-    async getAll() {
-        return await this.tenantRepository.find();
+    async getAll(queryParams: TenantQueryParams) {
+        const queryBuilder = this.tenantRepository.createQueryBuilder();
+        if (queryParams.q) {
+            const searchTerm = `%${queryParams.q}%`;
+            queryBuilder.where("CONCAT(name,' ',address) ILike :q", {
+                q: searchTerm,
+            });
+        }
+        const result = queryBuilder
+            .skip((queryParams.currentPage - 1) * queryParams.perPage)
+            .take(queryParams.perPage)
+            .getManyAndCount();
+        return result;
     }
     async getTenantById(id: number) {
         return await this.tenantRepository.findOne({

@@ -1,4 +1,10 @@
-import { NextFunction, RequestHandler, Response, Router } from "express";
+import {
+    NextFunction,
+    Request,
+    RequestHandler,
+    Response,
+    Router,
+} from "express";
 import { TenantController } from "../controllers/TenantController";
 import { TenantService } from "../services/TenantService";
 import { AppDataSource } from "../config/data-source";
@@ -9,6 +15,7 @@ import { CreateTenantRequest } from "../types";
 import { canAccess } from "../middleware/canAccess";
 import { Roles } from "../constants";
 import tenantValidator from "../validators/tenant.validator";
+import listTenantValidator from "../validators/listTenant.validator";
 
 const router = Router();
 
@@ -19,14 +26,15 @@ const tenantController = new TenantController(tenantService, logger);
 router.post(
     "/",
     authenticate as RequestHandler,
-    canAccess([Roles.MANAGER]),
+    canAccess([Roles.ADMIN]),
     tenantValidator,
     (req: CreateTenantRequest, res: Response, next: NextFunction) =>
         tenantController.create(req, res, next) as unknown as RequestHandler,
 );
 router.get(
     "/",
-    (req, res, next) =>
+    listTenantValidator,
+    (req: Request, res: Response, next: NextFunction) =>
         tenantController.getAll(req, res, next) as unknown as RequestHandler,
 );
 
