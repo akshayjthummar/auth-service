@@ -81,10 +81,10 @@ export class UserController {
         if (!result.isEmpty()) {
             return res.status(400).json({ errors: result.array() });
         }
-        const { firstName, lastName, role } = req.body;
+        const { firstName, lastName, role, tenantId } = req.body;
         try {
             await this.userService.update(
-                { firstName, lastName, role },
+                { firstName, lastName, role, tenantId },
                 Number(userId),
             );
             this.logger.info("User has been updated", { id: userId });

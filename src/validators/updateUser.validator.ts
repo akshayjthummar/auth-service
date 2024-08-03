@@ -16,4 +16,9 @@ export default checkSchema({
         notEmpty: true,
         trim: true,
     },
+    tenantId: {
+        errorMessage: "TenantId is required!",
+        notEmpty: true,
+        trim: true,
+    },
 });

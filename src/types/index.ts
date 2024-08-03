@@ -46,6 +46,7 @@ export interface UpdateUserData {
     firstName: string;
     lastName: string;
     role: string;
+    tenantId: number;
 }
 
 export interface UpdateUserRequest extends Request {

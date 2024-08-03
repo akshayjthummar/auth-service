@@ -99,7 +99,7 @@ export class UserService {
     }
 
     async update(
-        { firstName, lastName, role }: UpdateUserData,
+        { firstName, lastName, role, tenantId }: UpdateUserData,
         userId: number,
     ) {
         try {
@@ -107,6 +107,7 @@ export class UserService {
                 firstName,
                 lastName,
                 role,
+                tenant: tenantId ? { id: tenantId } : undefined,
             });
             return user;
         } catch (err) {
