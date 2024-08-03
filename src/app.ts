@@ -1,13 +1,13 @@
 import "reflect-metadata";
-import express, { NextFunction, Request, Response } from "express";
-import logger from "./config/logger";
-import { HttpError } from "http-errors";
+import express, { Request, Response } from "express";
+
 import cookieParser from "cookie-parser";
 import authRouter from "./routes/auth";
 import tenantRouter from "./routes/tenant";
 import usersRouter from "./routes/user";
 import { Config } from "./config";
 import cors from "cors";
+import { globalErrorHandler } from "./middleware/globalErrorHandler";
 
 const app = express();
 const ALLOWED_DOMAINS = [Config.CLIENT_UI_DOMAIN, Config.ADMIN_UI_DOMAIN];
@@ -25,20 +25,6 @@ app.use("/auth", authRouter);
 app.use("/tenants", tenantRouter);
 app.use("/users", usersRouter);
 
-app.use((err: HttpError, req: Request, res: Response, next: NextFunction) => {
-    logger.error(err.message);
-    const statusCode = err.statusCode || err.status || 500;
-    res.status(statusCode).json({
-        errors: [
-            {
-                type: err.name,
-                msg: err.message,
-                path: "",
-                location: "",
-            },
-        ],
-    });
-    next();
-});
+app.use(globalErrorHandler);
 
 export default app;

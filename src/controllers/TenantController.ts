@@ -15,7 +15,7 @@ export class TenantController {
         // Validation
         const result = validationResult(req);
         if (!result.isEmpty()) {
-            return res.status(400).json({ errors: result.array() });
+            return next(createHttpError(400, result.array()[0].msg as string));
         }
         const { name, address } = req.body;
         this.logger.debug("Request for creating tenant", { name, address });
@@ -67,7 +67,7 @@ export class TenantController {
         // Validation
         const result = validationResult(req);
         if (!result.isEmpty()) {
-            return res.status(400).json({ errors: result.array() });
+            return next(createHttpError(400, result.array()[0].msg as string));
         }
         const { name, address } = req.body;
         this.logger.debug("Request for updating a tenant", req.body);

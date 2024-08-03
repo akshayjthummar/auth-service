@@ -24,7 +24,7 @@ export class AuthControllers {
         const { firstName, lastName, email, password } = req.body;
         const result = validationResult(req);
         if (!result.isEmpty()) {
-            return res.status(400).json({ errors: result.array() });
+            return next(createHttpError(400, result.array()[0].msg as string));
         }
         this.logger.debug("New Request to register a user", {
             firstName,
@@ -81,7 +81,7 @@ export class AuthControllers {
         const result = validationResult(req);
 
         if (!result.isEmpty()) {
-            return res.status(400).json({ errors: result.array() });
+            return next(createHttpError(400, result.array()[0].msg as string));
         }
         const { email, password } = req.body;
         this.logger.debug("New Request to login a user", {
