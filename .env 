@@ -1,7 +1,0 @@
-PORT=5501
-DB_HOST=localhost
-DB_PORT=5432
-DB_USERNAME=root
-DB_PASSWORD=root
-DB_NAME=mernpgdata
-REFRESH_TOKEN_SECRET=mysecret
