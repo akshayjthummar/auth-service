@@ -44,6 +44,9 @@ export class AuthControllers {
             const payload: JwtPayload = {
                 sub: String(user.id),
                 role: user.role,
+                firstName: user.firstName,
+                lastName: user.lastName,
+                email: user.email,
             };
 
             const accessToken = this.tokenService.ganerateAccessToken(payload);
