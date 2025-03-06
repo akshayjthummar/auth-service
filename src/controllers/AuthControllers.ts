@@ -47,6 +47,7 @@ export class AuthControllers {
                 firstName: user.firstName,
                 lastName: user.lastName,
                 email: user.email,
+                tenant: user.tenant ? String(user.tenant.id) : "",
             };
 
             const accessToken = this.tokenService.ganerateAccessToken(payload);
@@ -170,6 +171,10 @@ export class AuthControllers {
             const payload: JwtPayload = {
                 sub: req.auth.sub,
                 role: req.auth.role,
+                tenant: req.auth.tenant,
+                firstName: req.auth.firstName,
+                lastName: req.auth.lastName,
+                email: req.auth.email,
             };
             const accessToken = this.tokenService.ganerateAccessToken(payload);
 
