@@ -45,20 +45,19 @@ export class UserService {
 
     async findByEmail(email: string) {
         return await this.userRepository.findOne({
-            where: {
-                email,
+            where: { email },
+            relations: { tenant: true }, // 👈 load tenant
+            select: {
+                id: true,
+                firstName: true,
+                lastName: true,
+                email: true,
+                role: true,
+                password: true,
+                tenant: { id: true, name: true }, // 👈 only pick what you need
             },
-            select: [
-                "id",
-                "firstName",
-                "lastName",
-                "email",
-                "role",
-                "password",
-            ],
         });
     }
-
     async findById(id: number) {
         return await this.userRepository.findOne({
             where: {
