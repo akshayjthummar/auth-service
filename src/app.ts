@@ -1,5 +1,5 @@
 import "reflect-metadata";
-import express, { Request, Response } from "express";
+import express, { Application, Request, Response } from "express";
 
 import cookieParser from "cookie-parser";
 import authRouter from "./routes/auth";
@@ -9,7 +9,7 @@ import { Config } from "./config";
 import cors from "cors";
 import { globalErrorHandler } from "./middleware/globalErrorHandler";
 
-const app = express();
+const app: Application = express();
 const ALLOWED_DOMAINS = [Config.CLIENT_UI_DOMAIN, Config.ADMIN_UI_DOMAIN];
 
 app.use(cors({ origin: ALLOWED_DOMAINS as string[], credentials: true }));
