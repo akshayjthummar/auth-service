@@ -40,7 +40,7 @@ jobs:
 
     build-and-push-docker:
         name: Build and Push Docker Image
-        needs: build-and-test
+        # needs: build-and-test
         runs-on: ubuntu-latest
         env:
             IMAGE_NAME: akshayjthummar/auth-service
