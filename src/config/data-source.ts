@@ -10,10 +10,11 @@ export const AppDataSource = new DataSource({
     password: Config.DB_PASSWORD,
     database: Config.DB_NAME,
 
-    // Don't use this in production always keep false
     synchronize: false,
     logging: false,
-    entities: ["src/entity/*.{ts,js}"],
-    migrations: ["src/migration/*.{ts,js}"],
+
+    // ✅ Important: use array of strings OR path.join, not nested arrays
+    entities: [__dirname + "/../entity/*.{ts,js}"],
+    migrations: [__dirname + "/../migration/*.{ts,js}"],
     subscribers: [],
 });
